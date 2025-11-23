@@ -5,4 +5,3 @@
 [submodule "main"]
 	path = main
 	url = https://github.com/BirthAndDeath/error22_einval_main.git
-	branch = main
