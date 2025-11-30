@@ -33,5 +33,6 @@ CMakeFiles/
 /coverage/
 
 /model/
-/Makefile
-/CmakeCache.txt
+Makefile
+CMakeCache.txt
+cmake_install.cmake
