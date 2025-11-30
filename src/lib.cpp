@@ -18,16 +18,17 @@ void app_init() {
       [](enum ggml_log_level level, const char *text, void * /* user_data */) {
         // 设置日志级别，只打印错误信息
         if (level >= GGML_LOG_LEVEL_ERROR) {
-          log_func(text);
-          LOGE("%s", text);
-          fprintf(stderr, "%s", text);
+          my_log(text);
+          LOG_E("%s", text);
         }
       },
       nullptr);
   // 加载动态后端
   const char *what_string;
   try {
+    my_log("initing...");
     load_backend();
+
     what_string = "<init successfully>";
   } catch (const std::exception &e) {
     what_string = e.what();
@@ -36,9 +37,9 @@ void app_init() {
   } catch (...) {
     what_string = "unknown exception";
   }
-  log_func(what_string);
+  my_log(what_string);
 
-  log_func("Hello World! world.execute(me);\n");
+  my_log("Hello World! world.execute(me);\n");
   // App::instance();
 }
 extern "C" {
