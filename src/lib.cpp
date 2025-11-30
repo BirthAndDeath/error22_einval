@@ -8,11 +8,9 @@ App &App::instance() {
   static App inst; // 线程安全、延迟构造
   return inst;
 }
+#include "./backend/load_backend.h"
 #include "c_api.h"
 #include "error22_einval.h"
-#include "ggml-backend.h"
-
-#include "lib.hpp"
 
 void app_init() {
 
@@ -26,8 +24,20 @@ void app_init() {
         }
       },
       nullptr);
-  // 加载动态后端 todo:在运行时加载检测vulkan等显存是否足够？
-  ggml_backend_load_all();
+  // 加载动态后端
+  const char *what_string;
+  try {
+    load_backend();
+    what_string = "<init successfully>";
+  } catch (const std::exception &e) {
+    what_string = e.what();
+  } catch (const char *s) {
+    what_string = s;
+  } catch (...) {
+    what_string = "unknown exception";
+  }
+  log_func(what_string);
+
   log_func("Hello World! world.execute(me);\n");
   // App::instance();
 }
