@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <string>
+
 App &App::instance() {
   static App inst; // 线程安全、延迟构造
   return inst;
@@ -31,16 +32,11 @@ void app_init() {
   // App::instance();
 }
 extern "C" {
+// c api here
 void c_init() { app_init(); }
 }
-/*
- * 主函数，实现了一个基于LLaMA模型的交互式聊天程序
- * 支持通过命令行参数指定模型文件、上下文大小和GPU层的数量
- * @param argc 命令行参数数量
- * @param argv 命令行参数数组
- * @return 程序执行结果，0表示成功，非0表示失败
- */
-FFI_PLUGIN_EXPORT int test() {
+
+int test() {
   std::cout << "Hello World!" << std::endl;
 
   std::string model_path = "~/projects/error22_einval/model/"

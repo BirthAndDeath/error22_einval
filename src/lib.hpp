@@ -28,6 +28,7 @@
 #endif
 
 class Dialogue {};
+class ChatInstance {};
 class App {
 public:
   static App &instance(); // 唯一入口
