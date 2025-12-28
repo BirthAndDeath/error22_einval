@@ -35,28 +35,22 @@ static inline void log_print(const char *file, int line, const char *fmt,
   log_print<LogLevel::E>(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
 #endif
 
-#include "llama.h"
-
 #include <cstdio>
 #include <cstring>
 #include <syslog.h>
 #include <vector>
 
-class Dialogue {};
-class ChatInstance {};
 class App {
 public:
   static App &instance(); // 唯一入口
   App(const App &) = delete;
   void operator=(const App &) = delete;
-  std::vector<Dialogue> dialogues;
-  std::vector<llama_model *> model;
 
 private:
   App() = default;
-  ~App() {
-    for (auto &m : model) {
-      llama_model_free(m);
-    }
+  ~App() { /*
+     for (auto &m : model) {
+       //llama_model_free(m);
+     }*/
   }
 };
