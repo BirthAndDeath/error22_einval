@@ -55,17 +55,6 @@ class Error22EinvalBindings {
   late final _sum_long_running = _sum_long_runningPtr
       .asFunction<int Function(int, int)>();
 
-  int load_model(ffi.Pointer<ffi.Char> path) {
-    return _load_model(path);
-  }
-
-  late final _load_modelPtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char>)>>(
-        'load_model',
-      );
-  late final _load_model = _load_modelPtr
-      .asFunction<int Function(ffi.Pointer<ffi.Char>)>();
-
   void init() {
     return _init();
   }
@@ -105,7 +94,6 @@ class Error22EinvalBindings {
         )
       >();
 
-  /// 保存回调函数指针
   late final ffi.Pointer<LogCallback> _g_log_callback = _lookup<LogCallback>(
     'g_log_callback',
   );
@@ -113,18 +101,6 @@ class Error22EinvalBindings {
   LogCallback get g_log_callback => _g_log_callback.value;
 
   set g_log_callback(LogCallback value) => _g_log_callback.value = value;
-
-  /// 修改日志函数使用回调
-  void log_func(ffi.Pointer<ffi.Char> message) {
-    return _log_func(message);
-  }
-
-  late final _log_funcPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char>)>>(
-        'log_func',
-      );
-  late final _log_func = _log_funcPtr
-      .asFunction<void Function(ffi.Pointer<ffi.Char>)>();
 }
 
 typedef LogCallback = ffi.Pointer<ffi.NativeFunction<LogCallbackFunction>>;
