@@ -4,6 +4,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(error22_einval_library VERSION 0.0.1 LANGUAGES C CXX)
+
 if(DEFINED CMAKE_TOOLCHAIN_FILE OR DEFINED CROSS_COMPILE)
     set(CROSS_COMPILE TRUE)
 endif()
@@ -18,22 +19,21 @@ endif()
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS *.cpp *.c *.h *.hpp)
 add_library(error22_einval SHARED
   ${SOURCES}
-
 )
-message(STATUS ">>>  SRC = ${SOURCES}")
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/../../extern/llama.cpp/CMakeLists.txt")
-    message(FATAL_ERROR "llama.cpp submodule 未初始化！")
+
+if(NOT EXISTS "${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/CMakeLists.txt")
+    message(FATAL_ERROR "extern/onnxruntime submodule 未初始化！")
 endif()
-add_subdirectory("${CMAKE_SOURCE_DIR}/../../extern/llama.cpp" llama)
+add_subdirectory("${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/" onnxruntime)
+
 
 
 
 
 target_include_directories(error22_einval PUBLIC
-  "${CMAKE_SOURCE_DIR}/../../extern/llama.cpp/include"
-  "${CMAKE_SOURCE_DIR}/../../extern/llama.cpp/common"
+  "${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/include"
 )
-target_link_libraries(error22_einval PRIVATE llama)
+target_link_libraries(error22_einval PRIVATE onnxruntime)
 
 set_target_properties(error22_einval PROPERTIES
   PUBLIC_HEADER error22_einval.h
@@ -41,15 +41,10 @@ set_target_properties(error22_einval PROPERTIES
 )
 
 target_compile_definitions(error22_einval PUBLIC DART_SHARED_LIB)
-
-
 if (ANDROID)
   # Support Android 15 16k page size
   target_link_options(error22_einval PRIVATE "-Wl,-z,max-page-size=16384")
 endif()
-
-
-
 set(CMAKE_CXX_STANDARD 20)     
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 

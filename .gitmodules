@@ -1,3 +1,7 @@
 [submodule "main"]
 	path = main
 	url = https://github.com/BirthAndDeath/error22_einval_main.git
+[submodule "extern/onnxruntime"]
+	path = extern/onnxruntime
+	url = git@github.com:microsoft/onnxruntime.git
+	shalow=true

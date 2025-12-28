@@ -2,8 +2,8 @@
 #include "error22_einval.h"
 #include <iostream>
 
+#include "./backend/load_backend.h"
 #include <string>
-
 App &App::instance() {
   static App inst; // 线程安全、延迟构造
   return inst;
@@ -18,7 +18,7 @@ void app_init() {
   const char *what_string;
   try {
     my_log("initing...");
-    App::instance().load_backend();
+    load_backend();
 
     what_string = "<init successfully>";
   } catch (const std::exception &e) {
@@ -33,16 +33,15 @@ void app_init() {
   my_log("Hello World! world.execute(me);\n");
   // App::instance();
 }
-extern "C" {
-// c api here
-void c_init() { app_init(); }
-int c_load_model(const char *path) { return load_model(path); };
-}
 #include <filesystem>
-
 int load_model(const char *path) {
   if (!std::filesystem::exists(path)) {
     LOG_E("failed to load model from %s,the file not exits", path);
     return 1;
   }
 };
+extern "C" {
+// c api here
+void c_init() { app_init(); }
+int c_load_model(const char *path) { return load_model(path); };
+}
