@@ -34,25 +34,20 @@ static inline void log_print(const char *file, int line, const char *fmt,
 #define LOG_E(fmt, ...)                                                        \
   log_print<LogLevel::E>(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
 #endif
-#include "onnxruntime/core/session/onnxruntime_cxx_api.h"
-#include <cstdio>
-#include <cstring>
-#include <syslog.h>
-#include <thread>
-#include <vector>
+#include "define.h"
 
 class App {
 public:
   static App &instance(); // 唯一入口
+
+  static Ort::Env &GetEnv();
   App(const App &) = delete;
   void operator=(const App &) = delete;
+
+  Ort::Session *session;
   Ort::SessionOptions opts;
 
 private:
   App() = default;
-  ~App() { /*
-     for (auto &m : model) {
-       //llama_model_free(m);
-     }*/
-  }
+  ~App() = default;
 };

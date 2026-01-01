@@ -5,15 +5,6 @@ cmake_minimum_required(VERSION 3.10)
 
 project(error22_einval_library VERSION 0.0.1 LANGUAGES C CXX)
 
-if(DEFINED CMAKE_TOOLCHAIN_FILE OR DEFINED CROSS_COMPILE)
-    set(CROSS_COMPILE TRUE)
-endif()
-if(CROSS_COMPILE)
-include("${CMAKE_SOURCE_DIR}/../../config/crosscompile.cmake")
-else()
-include("${CMAKE_SOURCE_DIR}/../../config/default.cmake")
-endif()
-
 
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS *.cpp *.c *.h *.hpp)
