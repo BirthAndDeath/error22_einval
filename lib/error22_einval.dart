@@ -17,7 +17,6 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 int sum(int a, int b) => _bindings.sum(a, b);
 void init() {
   logSetCallback();
-
   _bindings.init();
 }
 

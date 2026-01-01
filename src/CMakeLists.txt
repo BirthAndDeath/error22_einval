@@ -24,13 +24,14 @@ add_library(error22_einval SHARED
 if(NOT EXISTS "${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/CMakeLists.txt")
     message(FATAL_ERROR "extern/onnxruntime submodule 未初始化！")
 endif()
-add_subdirectory("${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/" onnxruntime)
+set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/local_install)
+add_subdirectory("${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/" EXCLUDE_FROM_ALL onnxruntime)
 
 
 
 
 
-target_include_directories(error22_einval PUBLIC
+target_include_directories(error22_einval PRIVATE
   "${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/include"
 )
 target_link_libraries(error22_einval PRIVATE onnxruntime)
