@@ -3,6 +3,7 @@
 #include "error22_einval.h"
 #include <iostream>
 #include <string>
+
 App &App::instance() {
   static App inst; // 线程安全、延迟构造
   return inst;
@@ -30,7 +31,13 @@ void app_init() {
   my_log(what_string);
 
   my_log("Hello World! world.execute(me);\n");
-  // App::instance();
+
+  Ort::Env env(ORT_LOGGING_LEVEL_WARNING, "env");
+
+  unsigned int num_cores = std::thread::hardware_concurrency();
+  App::instance().opts.SetIntraOpNumThreads(num_cores); // todo 自动测试最佳性能
+  App::instance().opts.SetGraphOptimizationLevel(
+      GraphOptimizationLevel::ORT_ENABLE_ALL);
 }
 #include <filesystem>
 int load_model(const char *path) {

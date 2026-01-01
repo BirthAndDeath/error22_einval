@@ -29,12 +29,12 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/" EXCLUDE_F
 
 
 
-
+target_link_libraries(error22_einval PRIVATE onnxruntime)
 
 target_include_directories(error22_einval PRIVATE
-  "${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/include"
+  "${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/include/"
 )
-target_link_libraries(error22_einval PRIVATE onnxruntime)
+
 
 set_target_properties(error22_einval PROPERTIES
   PUBLIC_HEADER error22_einval.h
