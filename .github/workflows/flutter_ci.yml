@@ -4,6 +4,9 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: main
     steps:
       - uses: actions/checkout@v4
 
@@ -15,6 +18,8 @@ jobs:
             ~/.pub-cache
             .dart_tool
             build/
+            main/.dart_tool      
+            main/build
           key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
 
       - uses: subosito/flutter-action@v2
@@ -24,26 +29,29 @@ jobs:
 
 
       - name: Install dependencies
-        working-directory: ./main
+      
         run: flutter pub get
 
       - name: Analyze
-        working-directory: ./main
+      
         run: flutter analyze
 
       - name: Test
-        working-directory: ./main
+      
         run: flutter test
 
       - name: Build APK
-        working-directory: ./main
+      
         run: flutter build apk --release
 
       - name: Build Linux
-        working-directory: ./main
+      
         run: flutter build linux --release
-
-
+      - name: Install Linux build dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+      
       - uses: actions/upload-artifact@v4
         with:
           name: android-apk
