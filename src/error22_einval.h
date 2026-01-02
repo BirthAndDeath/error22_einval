@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <sys/syslog.h>
-
+#include <wchar.h>
 #if _WIN32
 #include <windows.h>
 #else
@@ -32,7 +32,7 @@ FFI_PLUGIN_EXPORT int sum(int a, int b);
 FFI_PLUGIN_EXPORT int sum_long_running(int a, int b);
 
 FFI_PLUGIN_EXPORT void init();
-
+FFI_PLUGIN_EXPORT int loadmodel(const char *model_path);
 FFI_PLUGIN_EXPORT void set_log_callback(void (*callback)(const char *message));
 typedef void (*LogCallback)(const char *message);
 

@@ -44,7 +44,7 @@ public:
   App(const App &) = delete;
   void operator=(const App &) = delete;
 
-  Ort::Session *session;
+  std::unique_ptr<Ort::Session> session;
   Ort::SessionOptions opts;
 
 private:

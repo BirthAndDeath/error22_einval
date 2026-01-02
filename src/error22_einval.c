@@ -26,3 +26,6 @@ FFI_PLUGIN_EXPORT void set_log_callback(LogCallback callback) {
   g_log_callback = callback;
 }
 FFI_PLUGIN_EXPORT void init(void) { c_init(); }
+FFI_PLUGIN_EXPORT int loadmodel(const char *model_path) {
+  return c_load_model(model_path);
+}

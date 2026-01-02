@@ -20,6 +20,19 @@ void init() {
   _bindings.init();
 }
 
+Future<int> loadModel(String? path) async {
+  if (path == null) {
+    throw ArgumentError('Model path cannot be null');
+  }
+  final ptr = path.toString().toNativeUtf8(); // Dart转 UTF-8
+
+  try {
+    return _bindings.loadmodel(ptr.cast<ffi.WChar>());
+  } finally {
+    malloc.free(ptr);
+  }
+}
+
 /// A longer lived native function, which occupies the thread calling it.
 ///
 /// Do not call these kind of native functions in the main isolate. They will
