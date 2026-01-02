@@ -1,21 +1,55 @@
 name: Flutter CI
 on: [push, pull_request]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2  
+
+
+      - name: Cache Flutter
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+            build/
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
+
+      - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.22'
           channel: stable
-      - run: cd ./main    
-      - run: flutter pub get
-      - run: flutter analyze
-      - run: flutter test
-      - run: flutter build apk --release
-      - run: flutter build linux --release
+
+
+      - name: Install dependencies
+        working-directory: ./main
+        run: flutter pub get
+
+      - name: Analyze
+        working-directory: ./main
+        run: flutter analyze
+
+      - name: Test
+        working-directory: ./main
+        run: flutter test
+
+      - name: Build APK
+        working-directory: ./main
+        run: flutter build apk --release
+
+      - name: Build Linux
+        working-directory: ./main
+        run: flutter build linux --release
+
+
       - uses: actions/upload-artifact@v4
         with:
           name: android-apk
-          path: ./main/build/app/outputs/flutter-apk/app-release.apk
+          path: main/build/app/outputs/flutter-apk/app-release.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-x64-bundle
+          path: main/build/linux/x64/release/bundle/
