@@ -61,3 +61,7 @@ jobs:
         with:
           name: linux-x64-bundle
           path: main/build/linux/x64/release/bundle/
+      - name: List directory recursively
+        run: |
+          echo "===== recursive file list ====="
+          find . -type f | sort
