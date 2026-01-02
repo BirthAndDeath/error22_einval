@@ -11,6 +11,7 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS *.cpp *.c *.h *.hpp)
 add_library(error22_einval SHARED
   ${SOURCES}
 )
+set(onnxruntime_TARGET_ARCH "x86_64" CACHE STRING "" FORCE)
 set(onnxruntime_DISABLE_MARCH_NATIVE ON CACHE BOOL "" FORCE)
 if(NOT EXISTS "${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/CMakeLists.txt")
     message(FATAL_ERROR "extern/onnxruntime submodule 未初始化！")
