@@ -10,6 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 1
           submodules: recursive
 
 
@@ -18,8 +19,7 @@ jobs:
         with:
           path: |
             ~/.pub-cache
-            .dart_tool
-            build/
+            
             main/.dart_tool      
             main/build
           key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
@@ -41,10 +41,6 @@ jobs:
       - name: Test
       
         run: flutter test
-
-      - name: Build APK
-      
-        run: flutter build apk --release
       - name: Install Linux build dependencies
         run: |
           sudo apt update
@@ -52,17 +48,21 @@ jobs:
       - name: Build Linux
       
         run: flutter build linux --release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-x64-bundle
+          path: main/build/linux/x64/release/bundle/
       
+      - name: Build APK
       
+        run: flutter build apk --release
+     
       - uses: actions/upload-artifact@v4
         with:
           name: android-apk
           path: main/build/app/outputs/flutter-apk/app-release.apk
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: linux-x64-bundle
-          path: main/build/linux/x64/release/bundle/
+      
       - name: List directory recursively
         run: |
           echo "===== recursive file list ====="
