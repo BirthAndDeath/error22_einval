@@ -24,10 +24,16 @@ if(NOT EXISTS "${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/CMakeLists.txt
 endif()
 set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/local_install)
 set(CMAKE_CXX_FLAGS_saved "${CMAKE_CXX_FLAGS}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=builtin-declaration-mismatch")
-option(onnxruntime_USE_BF16 "Enable BFloat16" OFF)
-add_subdirectory("${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/" EXCLUDE_FROM_ALL onnxruntime)
+set(CMAKE_C_FLAGS_saved   "${CMAKE_C_FLAGS}")  
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error")
+set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -Wno-error")
+
+add_subdirectory("${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake"
+                 EXCLUDE_FROM_ALL onnxruntime)
+
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_saved}")
+set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS_saved}")
 
 target_link_libraries(error22_einval PRIVATE onnxruntime)
 
