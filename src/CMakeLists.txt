@@ -20,11 +20,10 @@ if(NOT EXISTS "${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/CMakeLists.txt
     message(FATAL_ERROR "extern/onnxruntime submodule 未初始化！")
 endif()
 set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/local_install)
+set(CMAKE_CXX_FLAGS_saved "${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=builtin-declaration-mismatch")
 add_subdirectory("${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/" EXCLUDE_FROM_ALL onnxruntime)
-target_compile_options(onnxruntime PRIVATE
-    $<$<CXX_COMPILER_ID:Clang,GNU>:-Wno-error=builtin-declaration-mismatch>
-)
-
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_saved}")
 
 target_link_libraries(error22_einval PRIVATE onnxruntime)
 
