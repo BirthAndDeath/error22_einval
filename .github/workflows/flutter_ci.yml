@@ -48,7 +48,7 @@ jobs:
       - name: Install Linux build dependencies
         run: |
           sudo apt update
-          sudo apt install -y cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev libtinfo5
+          sudo apt install -y cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev 
          
       - name: Build Linux
       
