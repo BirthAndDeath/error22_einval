@@ -27,7 +27,7 @@ Future<int> loadModel(String? path) async {
   final ptr = path.toString().toNativeUtf8(); // Dart转 UTF-8
 
   try {
-    return _bindings.loadmodel(ptr.cast<ffi.WChar>());
+    return _bindings.loadmodel(ptr.cast());
   } finally {
     malloc.free(ptr);
   }
