@@ -40,11 +40,11 @@ jobs:
       - name: Test
       
         run: flutter test
-      - name: Install clang
+      - name: Install clang-15
         uses: KyleMayes/install-llvm-action@v2
-          with:
-            version: 15          
-            env: true   
+        with:
+          version: 15          
+          env: true   
       - name: Install Linux build dependencies
         run: |
           sudo apt update
