@@ -5,10 +5,6 @@ cmake_minimum_required(VERSION 3.10)
 
 project(error22_einval_library VERSION 0.0.1 LANGUAGES C CXX)
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=builtin-declaration-mismatch")
-    set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -Wno-error=builtin-declaration-mismatch")
-endif()
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS *.cpp *.c *.h *.hpp)
 add_library(error22_einval SHARED
