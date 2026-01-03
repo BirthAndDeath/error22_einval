@@ -2,6 +2,7 @@ include: package:flutter_lints/flutter.yaml
 
 analyzer:
   exclude:
-    - build/** 
+    - build/**
+    - extern/onnxruntime/build/** 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
