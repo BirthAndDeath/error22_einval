@@ -46,8 +46,8 @@ jobs:
       - name: Build Linux
       
         run: |
-          export CC=$CC  
-          export CXX=$CXX
+          export CC=clang-17
+          export CXX=clang++-17
           flutter build linux --release
       - uses: actions/upload-artifact@v4
         with:
