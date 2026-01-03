@@ -21,7 +21,9 @@ if(NOT EXISTS "${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/CMakeLists.txt
 endif()
 set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/local_install)
 add_subdirectory("${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/" EXCLUDE_FROM_ALL onnxruntime)
-
+target_compile_options(onnxruntime PRIVATE
+    $<$<CXX_COMPILER_ID:Clang,GNU>:-Wno-error=builtin-declaration-mismatch>
+)
 
 
 target_link_libraries(error22_einval PRIVATE onnxruntime)
