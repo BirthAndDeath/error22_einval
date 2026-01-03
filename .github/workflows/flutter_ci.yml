@@ -21,7 +21,6 @@ jobs:
             ~/.pub-cache
             
             main/.dart_tool      
-            main/build
           key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
 
       - uses: subosito/flutter-action@v2
