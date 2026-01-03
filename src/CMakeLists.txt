@@ -10,18 +10,32 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS *.cpp *.c *.h *.hpp)
 add_library(error22_einval SHARED
   ${SOURCES}
 )
-set(onnxruntime_DISABLE_WARNINGS_AS_ERRORS ON CACHE BOOL "" FORCE)
+
 
 
 if(NOT EXISTS "${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/CMakeLists.txt")
     message(FATAL_ERROR "extern/onnxruntime submodule 未初始化！")
 endif()
 
+set(ORT_PREBUILT_DIR "${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/build/${CMAKE_SYSTEM_NAME}/Release")
+set(ORT_LIB "${ORT_PREBUILT_DIR}/libonnxruntime.a")
 
-add_subdirectory("${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake"
-                 EXCLUDE_FROM_ALL onnxruntime)
+#  若产物不存在 → 自动跑 build.sh
+if(NOT EXISTS "${ORT_LIB}")
+    message(STATUS "ONNX Runtime prebuilt lib missing → running build.sh ...")
+    execute_process(
+    COMMAND bash "${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/build.sh" --config Release --parallel --compile_no_warning_as_error --skip_tests
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/../../"
+    RESULT_VARIABLE BUILD_RESULT
+)
+    if(NOT BUILD_RESULT EQUAL 0)
+        message(FATAL_ERROR "build.sh failed, exit code ${BUILD_RESULT}")
+    endif()
+endif()
 
 
+add_library(onnxruntime STATIC IMPORTED GLOBAL)
+set_target_properties(onnxruntime  IMPORTED_LOCATION "${ORT_LIB}")
 target_link_libraries(error22_einval PRIVATE onnxruntime)
 
 target_include_directories(error22_einval PRIVATE
