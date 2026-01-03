@@ -32,10 +32,10 @@ if(NOT EXISTS "${ORT_LIB}")
         message(FATAL_ERROR "build.sh failed, exit code ${BUILD_RESULT}")
     endif()
 endif()
-
+set_target_properties(onnxruntime  IMPORTED_LOCATION "${ORT_LIB}")
 
 add_library(onnxruntime STATIC IMPORTED GLOBAL)
-set_target_properties(onnxruntime  IMPORTED_LOCATION "${ORT_LIB}")
+
 target_link_libraries(error22_einval PRIVATE onnxruntime)
 
 target_include_directories(error22_einval PRIVATE
