@@ -9,7 +9,10 @@
             "program": "lib/main.dart",
             "cwd": "main",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--release"
+            ]
         }
     ]
 }
