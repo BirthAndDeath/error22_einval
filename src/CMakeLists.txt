@@ -10,26 +10,17 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS *.cpp *.c *.h *.hpp)
 add_library(error22_einval SHARED
   ${SOURCES}
 )
+set(onnxruntime_DISABLE_WARNINGS_AS_ERRORS ON CACHE BOOL "" FORCE)
 
-set(onnxruntime_DISABLE_MARCH_NATIVE ON CACHE BOOL "" FORCE)
-set(onnxruntime_ENABLE_CPUINFO        OFF CACHE BOOL "" FORCE)
-set(onnxruntime_BUILD_UNIT_TESTS      OFF CACHE BOOL "" FORCE)
 
 if(NOT EXISTS "${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake/CMakeLists.txt")
     message(FATAL_ERROR "extern/onnxruntime submodule 未初始化！")
 endif()
-set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/local_install)
-set(CMAKE_CXX_FLAGS_saved "${CMAKE_CXX_FLAGS}")
-set(CMAKE_C_FLAGS_saved   "${CMAKE_C_FLAGS}")  
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error")
-set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -Wno-error")
+
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/../../extern/onnxruntime/cmake"
                  EXCLUDE_FROM_ALL onnxruntime)
 
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_saved}")
-set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS_saved}")
 
 target_link_libraries(error22_einval PRIVATE onnxruntime)
 
