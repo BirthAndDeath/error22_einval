@@ -15,24 +15,31 @@ import 'dart:ffi' as ffi;
 class Error22EinvalBindings {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-  _lookup;
+      _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   Error22EinvalBindings(ffi.DynamicLibrary dynamicLibrary)
-    : _lookup = dynamicLibrary.lookup;
+      : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   Error22EinvalBindings.fromLookup(
-    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
-  ) : _lookup = lookup;
+      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
+          lookup)
+      : _lookup = lookup;
 
   /// A very short-lived native function.
   ///
   /// For very short-lived functions, it is fine to call them on the main isolate.
   /// They will block the Dart execution while running the native function, so
   /// only do this for native functions which are guaranteed to be short-lived.
-  int sum(int a, int b) {
-    return _sum(a, b);
+  int sum(
+    int a,
+    int b,
+  ) {
+    return _sum(
+      a,
+      b,
+    );
   }
 
   late final _sumPtr =
@@ -44,70 +51,70 @@ class Error22EinvalBindings {
   /// Do not call these kind of native functions in the main isolate. They will
   /// block Dart execution. This will cause dropped frames in Flutter applications.
   /// Instead, call these native functions on a separate isolate.
-  int sum_long_running(int a, int b) {
-    return _sum_long_running(a, b);
+  int sum_long_running(
+    int a,
+    int b,
+  ) {
+    return _sum_long_running(
+      a,
+      b,
+    );
   }
 
   late final _sum_long_runningPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>(
-        'sum_long_running',
-      );
-  late final _sum_long_running = _sum_long_runningPtr
-      .asFunction<int Function(int, int)>();
+          'sum_long_running');
+  late final _sum_long_running =
+      _sum_long_runningPtr.asFunction<int Function(int, int)>();
 
   void init() {
     return _init();
   }
 
-  late final _initPtr = _lookup<ffi.NativeFunction<ffi.Void Function()>>(
-    'init',
-  );
+  late final _initPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function()>>('init');
   late final _init = _initPtr.asFunction<void Function()>();
 
-  int loadmodel(ffi.Pointer<ffi.WChar> model_path) {
-    return _loadmodel(model_path);
+  int loadmodel(
+    ffi.Pointer<ffi.Char> model_path,
+  ) {
+    return _loadmodel(
+      model_path,
+    );
   }
 
   late final _loadmodelPtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.WChar>)>>(
-        'loadmodel',
-      );
-  late final _loadmodel = _loadmodelPtr
-      .asFunction<int Function(ffi.Pointer<ffi.WChar>)>();
+      _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char>)>>(
+          'loadmodel');
+  late final _loadmodel =
+      _loadmodelPtr.asFunction<int Function(ffi.Pointer<ffi.Char>)>();
 
   void set_log_callback(
     ffi.Pointer<
-      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char> message)>
-    >
-    callback,
+            ffi
+            .NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char> message)>>
+        callback,
   ) {
-    return _set_log_callback(callback);
+    return _set_log_callback(
+      callback,
+    );
   }
 
-  late final _set_log_callbackPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(
-            ffi.Pointer<
-              ffi.NativeFunction<
-                ffi.Void Function(ffi.Pointer<ffi.Char> message)
-              >
-            >,
-          )
-        >
-      >('set_log_callback');
-  late final _set_log_callback = _set_log_callbackPtr
-      .asFunction<
-        void Function(
+  late final _set_log_callbackPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Pointer<
+                      ffi.NativeFunction<
+                          ffi.Void Function(ffi.Pointer<ffi.Char> message)>>)>>(
+      'set_log_callback');
+  late final _set_log_callback = _set_log_callbackPtr.asFunction<
+      void Function(
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char> message)>
-          >,
-        )
-      >();
+              ffi.NativeFunction<
+                  ffi.Void Function(ffi.Pointer<ffi.Char> message)>>)>();
 
-  late final ffi.Pointer<LogCallback> _g_log_callback = _lookup<LogCallback>(
-    'g_log_callback',
-  );
+  late final ffi.Pointer<LogCallback> _g_log_callback =
+      _lookup<LogCallback>('g_log_callback');
 
   LogCallback get g_log_callback => _g_log_callback.value;
 
